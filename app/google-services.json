@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "30235002845",
+    "firebase_url": "https://namastey-37242.firebaseio.com",
+    "project_id": "namastey-37242",
+    "storage_bucket": "namastey-37242.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30235002845:android:a38aac2795197051a5d834",
+        "android_client_info": {
+          "package_name": "com.example.namastey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "30235002845-0n9re2vlflinf1hkp2rrlr9v2fu5pmkh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.namastey",
+            "certificate_hash": "504c6ac537543716aca444bdbdf20983c95ef1eb"
+          }
+        },
+        {
+          "client_id": "30235002845-82ps841cl6t8h4tcllfbmvcf4kg2eo6r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHKU9OPKI7fwn4SVZezrJboRprTpU42Xo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "30235002845-82ps841cl6t8h4tcllfbmvcf4kg2eo6r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
