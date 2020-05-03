@@ -3,6 +3,7 @@ package com.example.namastey;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -30,6 +31,7 @@ public class HomeActivity extends AppCompatActivity {
     private String currentUserId;
     private int STORAGE_PERMISSION_CODE =1;
     private int CONTACT_PERMISSION_CODE =1;
+    private Toolbar mToolbar;
 
 
 
@@ -42,6 +44,14 @@ public class HomeActivity extends AppCompatActivity {
 
         mAuth =FirebaseAuth.getInstance();
         RootRef = FirebaseDatabase.getInstance().getReference();
+        mToolbar = (Toolbar) findViewById(R.id.home_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Namastey!");
+
+
+
+
+
         if(ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
         {
         }
@@ -205,14 +215,13 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-
-        getMenuInflater().inflate(R.menu.options_menu,menu);
-        return true;
+         super.onCreateOptionsMenu(menu);
+         getMenuInflater().inflate(R.menu.options_menu,menu);
+         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
-    {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
         if(item.getItemId() == R.id.logout)
@@ -225,10 +234,8 @@ public class HomeActivity extends AppCompatActivity {
         {
             SendUserToSettingsActivity();
         }
-
         return true;
     }
-
 
     private void SendUserToSettingsActivity()
     {
