@@ -1,9 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="80dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:elevation="10dp"
+        android:id="@+id/cardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/visit_profile_image"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:src="@drawable/profile_image" />
+
+            <TextView
+                android:id="@+id/visit_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User name"
+
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/visit_user_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Namastey!"
+
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="70dp"
+                android:textAlignment="center"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                />
+
+
+
+        </LinearLayout>
+
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/send_message_request_button"
+        android:layout_below="@+id/cardView"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="65dp"
+        android:layout_marginRight="65dp"
+        android:background="@drawable/button"
+        android:text="Make Buddy"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/decline_message_request_button"
+        android:layout_below="@+id/send_message_request_button"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="65dp"
+        android:textAllCaps="false"
+        android:layout_marginRight="65dp"
+        android:background="@drawable/button"
+        android:text="Cancel chat Request"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:visibility="invisible"
+
+        />
+
+
+
+
+
+
+
+
+</RelativeLayout>

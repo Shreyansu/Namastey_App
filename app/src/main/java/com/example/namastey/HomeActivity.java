@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +34,9 @@ public class HomeActivity extends AppCompatActivity {
     private int STORAGE_PERMISSION_CODE =1;
     private int CONTACT_PERMISSION_CODE =1;
     private Toolbar mToolbar;
+    private TabsAccessAdapter myTabsAccessorAdapter;
+    private ViewPager myviewPager;
+    private TabLayout myTabLayout;
 
 
 
@@ -47,6 +52,13 @@ public class HomeActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Namastey!");
+
+        myviewPager = (ViewPager)findViewById(R.id.main_tabs_pager);
+        myTabLayout = (TabLayout)findViewById(R.id.main_tabs);
+
+        myTabsAccessorAdapter = new TabsAccessAdapter(getSupportFragmentManager());
+        myviewPager.setAdapter(myTabsAccessorAdapter);
+        myTabLayout.setupWithViewPager(myviewPager);
 
 
 
@@ -230,11 +242,24 @@ public class HomeActivity extends AppCompatActivity {
             SendUserToLoginActivity();
         }
 
+
         if(item.getItemId() == R.id.settings)
         {
             SendUserToSettingsActivity();
         }
+
+        if(item.getItemId() == R.id.findFriends)
+        {
+            SendUserTofindFriendsActivity();
+        }
         return true;
+    }
+
+    private void SendUserTofindFriendsActivity()
+    {
+        Intent findFriend  = new Intent(HomeActivity.this,FindBuddiesActivity.class);
+        startActivity(findFriend);
+
     }
 
     private void SendUserToSettingsActivity()

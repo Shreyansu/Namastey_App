@@ -4,6 +4,15 @@
 
 
     <item
+        android:title="Find Buddies"
+        android:id="@+id/findFriends"
+        app:showAsAction="never"
+
+
+        ></item>
+
+
+    <item
         android:title="Settings"
         android:id="@+id/settings"
         app:showAsAction="never"
@@ -15,6 +24,8 @@
         app:showAsAction="never"
         >
     </item>
+
+
 
 
 
