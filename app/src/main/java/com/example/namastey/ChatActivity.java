@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +55,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    private ImageView videoCall;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +80,18 @@ public class ChatActivity extends AppCompatActivity {
             {
                 sendMessage();
 
+
+            }
+        });
+
+        videoCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent videoIntent = new Intent(ChatActivity.this,CallingActivity.class);
+                videoIntent.putExtra("visit_user_id",messagerecieverId);
+                videoIntent.putExtra("visit_user_name",messagerecieverName);
+                startActivity(videoIntent);
 
             }
         });
@@ -109,11 +125,14 @@ public class ChatActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         userMessagesList.setLayoutManager(linearLayoutManager);
         userMessagesList.setAdapter(messagesAdapter);
+        videoCall = (ImageView)findViewById(R.id.videoCall);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+
 
         RootRef.child("Messages").child(messagSenderId).child(messagerecieverId)
                 .addChildEventListener(new ChildEventListener() {
@@ -203,4 +222,7 @@ public class ChatActivity extends AppCompatActivity {
         }
 
     }
+
+
+
 }

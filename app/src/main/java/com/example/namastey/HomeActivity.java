@@ -29,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 public class HomeActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private DatabaseReference RootRef;
+    private DatabaseReference RootRef,usersRef;
     private String currentUserId;
     private int STORAGE_PERMISSION_CODE =1;
     private int CONTACT_PERMISSION_CODE =1;
@@ -37,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
     private TabsAccessAdapter myTabsAccessorAdapter;
     private ViewPager myviewPager;
     private TabLayout myTabLayout;
+    private String calledBy = "";
 
 
 
@@ -49,12 +50,14 @@ public class HomeActivity extends AppCompatActivity {
 
         mAuth =FirebaseAuth.getInstance();
         RootRef = FirebaseDatabase.getInstance().getReference();
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         mToolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Namastey!");
 
         myviewPager = (ViewPager)findViewById(R.id.main_tabs_pager);
         myTabLayout = (TabLayout)findViewById(R.id.main_tabs);
+        currentUserId = mAuth.getCurrentUser().getUid();
 
         myTabsAccessorAdapter = new TabsAccessAdapter(getSupportFragmentManager());
         myviewPager.setAdapter(myTabsAccessorAdapter);
@@ -193,6 +196,8 @@ public class HomeActivity extends AppCompatActivity {
         {
             VerifyUserExistence();
         }
+
+        checkForRecievingCall();
     }
 
 
@@ -278,6 +283,39 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(LoginIntent);
         finish();
     }
+
+
+
+
+
+
+    private void checkForRecievingCall()
+    {
+        usersRef.child(currentUserId).child("Ringing")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        if(dataSnapshot.hasChild("ringing"))
+                        {
+                            calledBy = dataSnapshot.child("ringing").getValue().toString();
+                            Intent callingIntent  = new Intent(HomeActivity.this,CallingActivity.class);
+                            callingIntent.putExtra("visit_user_id",calledBy);
+                            startActivity(callingIntent);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
+    }
+
 
 }
 
