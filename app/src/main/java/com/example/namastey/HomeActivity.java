@@ -212,7 +212,7 @@ public class HomeActivity extends AppCompatActivity {
             {
                 if(dataSnapshot.child("name").exists())
                 {
-                    Toast.makeText(HomeActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {

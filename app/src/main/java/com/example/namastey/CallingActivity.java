@@ -3,8 +3,11 @@ package com.example.namastey;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.drawable.shapes.OvalShape;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +32,8 @@ public class CallingActivity extends AppCompatActivity {
     private String SenderUserId="",SenderUserName="",SenderUserImage="",checker="";
     private FirebaseAuth mAuth;
     private DatabaseReference userRef;
+    private String callingId = "",ringingId = "";
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class CallingActivity extends AppCompatActivity {
         profileImage = findViewById(R.id.profile_image_calling);
         cancelCallButton = findViewById(R.id.cancel_call);
         acceptCallButton = findViewById(R.id.make_call);
+        mediaPlayer = MediaPlayer.create(this,R.raw.ringing);
 
         getAndsetRecieverProfile();
         cancelCallButton.setOnClickListener(new View.OnClickListener() {
@@ -53,12 +59,41 @@ public class CallingActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 checker = "clicked";
+                mediaPlayer.stop();
 
+                cancelCallingUser();
+
+
+            }
+        });
+        acceptCallButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                mediaPlayer.stop();
+                final HashMap<String, Object> callingPickupMap = new HashMap<>();
+                callingPickupMap.put("picked","picked");
+
+                userRef.child(SenderUserId).child("Ringing").
+                        updateChildren(callingPickupMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task)
+                    {
+                        if(task.isComplete())
+                        {
+                            Intent intent  = new Intent(CallingActivity.this,VideoChatActivity.class);
+                            startActivity(intent);
+                        }
+
+                    }
+                });
 
             }
         });
 
     }
+
+
 
     private void getAndsetRecieverProfile()
     {
@@ -70,8 +105,7 @@ public class CallingActivity extends AppCompatActivity {
                 {
                     RecieverUserImage = dataSnapshot.child(RecieverUserId).child("image").getValue().toString();
                     RecieverUserName = dataSnapshot.child(RecieverUserId).child("name").getValue().toString();
-                    nameContact.setText(RecieverUserName);
-                    Picasso.get().load(RecieverUserImage).placeholder(R.drawable.profile_image).into(profileImage);
+
 
                 }
 
@@ -98,6 +132,7 @@ public class CallingActivity extends AppCompatActivity {
     {
 
         super.onStart();
+        mediaPlayer.start();
         userRef.child(RecieverUserId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -105,7 +140,6 @@ public class CallingActivity extends AppCompatActivity {
                 if(!checker.equals("clicked") && !dataSnapshot.hasChild("Calling") && !dataSnapshot.hasChild("Ringing"))
                 {
                     final HashMap<String, Object> callingInfo = new HashMap<>();
-
                     callingInfo.put("calling",RecieverUserId);
 
                     userRef.child(SenderUserId).child("Calling").updateChildren(callingInfo).
@@ -116,7 +150,7 @@ public class CallingActivity extends AppCompatActivity {
                                     if(task.isSuccessful())
                                     {
                                         final HashMap<String, Object> ringingInfo = new HashMap<>();
-                                        callingInfo.put("ringing",SenderUserId);
+                                        ringingInfo.put("ringing",SenderUserId);
 
                                         userRef.child(RecieverUserId).child("Ringing").updateChildren(ringingInfo);
 
@@ -144,6 +178,13 @@ public class CallingActivity extends AppCompatActivity {
                 {
                     acceptCallButton.setVisibility(View.VISIBLE);
                 }
+                if(dataSnapshot.child(RecieverUserId).child("Ringing").hasChild("picked"))
+                {
+                    mediaPlayer.stop();
+                    Intent intent  = new Intent(CallingActivity.this,VideoChatActivity.class);
+                    startActivity(intent);
+
+                }
 
 
             }
@@ -161,4 +202,114 @@ public class CallingActivity extends AppCompatActivity {
 
 
     }
+
+    private void cancelCallingUser()
+    {
+        //for sender side
+        userRef.child(SenderUserId).child("Calling").
+                addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        if(dataSnapshot.exists() && dataSnapshot.hasChild("calling"))
+                        {
+                            callingId = dataSnapshot.child("calling").getValue().toString();
+
+                            userRef.child(callingId).child("Ringing")
+                                    .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task)
+                                {
+                                    if(task.isSuccessful())
+                                    {
+                                        userRef.child(SenderUserId).child("Calling")
+                                                .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task)
+                                            {
+                                                Intent intent = new Intent(CallingActivity.this,HomeActivity.class);
+
+                                                startActivity(intent);
+                                                finish();
+
+
+                                            }
+                                        });
+                                    }
+
+                                }
+                            });
+                        }
+                        else
+                        {
+                            Intent intent = new Intent(CallingActivity.this,HomeActivity.class);
+
+                            startActivity(intent);
+                            finish();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+        //from reciever side
+
+        userRef.child(SenderUserId).child("Ringing").
+                addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        if(dataSnapshot.exists() && dataSnapshot.hasChild("ringing"))
+                        {
+                            ringingId = dataSnapshot.child("ringing").getValue().toString();
+
+                            userRef.child(ringingId).child("Calling")
+                                    .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task)
+                                {
+                                    if(task.isSuccessful())
+                                    {
+                                        userRef.child(SenderUserId).child("Ringing")
+                                                .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task)
+                                            {
+                                                Intent intent = new Intent(CallingActivity.this,HomeActivity.class);
+
+                                                startActivity(intent);
+                                                finish();
+
+
+                                            }
+                                        });
+                                    }
+
+                                }
+                            });
+                        }
+                        else
+                        {
+                            Intent intent = new Intent(CallingActivity.this,HomeActivity.class);
+
+                            startActivity(intent);
+                            finish();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
 }
