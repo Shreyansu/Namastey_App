@@ -4,21 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity">
+    tools:context=".ProfileActivity"
+    android:background="#A4A6A6"
+    >
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_marginTop="80dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:elevation="10dp"
-        android:id="@+id/cardView">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+
+
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/visit_profile_image"
@@ -27,6 +19,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="80dp"
                 android:layout_marginRight="80dp"
+                android:layout_marginTop="70dp"
+
+                android:layout_centerHorizontal="true"
                 android:src="@drawable/profile_image" />
 
             <TextView
@@ -34,6 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="User name"
+                android:layout_below="@id/visit_profile_image"
+                android:layout_marginTop="15dp"
 
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
@@ -46,6 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Namastey!"
+                android:layout_below="@id/visit_user_name"
 
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
@@ -57,27 +55,20 @@
 
 
 
-        </LinearLayout>
-
-
-
-
-    </androidx.cardview.widget.CardView>
-
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         android:id="@+id/send_message_request_button"
-        android:layout_below="@+id/cardView"
-        android:layout_marginTop="15dp"
+        android:layout_below="@id/visit_user_status"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="65dp"
         android:layout_marginRight="65dp"
         android:background="@drawable/button"
         android:text="Make Buddy"
         android:textAllCaps="false"
-        android:textColor="@color/colorAccent"
+        android:textColor="#111212"
         android:textSize="20sp"
 
         />

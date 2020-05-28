@@ -31,24 +31,13 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="Display UserName"
+        android:layout_marginTop="5dp"
         android:textColor="#171919"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_marginLeft="10dp"/>
 
-    <TextView
-        android:id="@+id/custom_user_last_seen"
-        android:layout_below="@id/custom_profile_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="Last_Seen"
-        android:textSize="12sp"
-        android:textColor="#1B1C1C"
 
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="19dp"/>
 
 
 

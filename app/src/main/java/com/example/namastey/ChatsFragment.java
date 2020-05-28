@@ -55,9 +55,8 @@ public class ChatsFragment extends Fragment {
 
         chatsList =(RecyclerView) private_chat_list.findViewById(R.id.chat_list);
         chatsList.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-
+        //added sethasfixed size
+        chatsList.setHasFixedSize(true);
 
 
 

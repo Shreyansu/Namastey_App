@@ -1,5 +1,9 @@
 package com.example.namastey;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private AdView mAdView;
+    private static final String TAG = "HomeActivity";
 
     private FirebaseAuth mAuth;
     private DatabaseReference RootRef,usersRef;
@@ -62,6 +69,10 @@ public class HomeActivity extends AppCompatActivity {
         myTabsAccessorAdapter = new TabsAccessAdapter(getSupportFragmentManager());
         myviewPager.setAdapter(myTabsAccessorAdapter);
         myTabLayout.setupWithViewPager(myviewPager);
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
 
 

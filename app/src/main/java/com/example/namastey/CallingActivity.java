@@ -81,8 +81,11 @@ public class CallingActivity extends AppCompatActivity {
                     {
                         if(task.isComplete())
                         {
+                            mediaPlayer.stop();
                             Intent intent  = new Intent(CallingActivity.this,VideoChatActivity.class);
                             startActivity(intent);
+                            //TODO--added finish here
+                            finish();
                         }
 
                     }
@@ -103,9 +106,21 @@ public class CallingActivity extends AppCompatActivity {
             {
                 if(dataSnapshot.child(RecieverUserId).exists())
                 {
-                    RecieverUserImage = dataSnapshot.child(RecieverUserId).child("image").getValue().toString();
-                    RecieverUserName = dataSnapshot.child(RecieverUserId).child("name").getValue().toString();
+                    if(dataSnapshot.child(RecieverUserId).hasChild("image"))
+                    {
+                        RecieverUserImage = dataSnapshot.child(RecieverUserId).child("image").getValue().toString();
+                        RecieverUserName = dataSnapshot.child(RecieverUserId).child("name").getValue().toString();
+                        nameContact.setText(RecieverUserName);
+                        Picasso.get().load(RecieverUserImage).placeholder(R.drawable.profile_image).into(profileImage);
 
+                    }
+                    else
+                    {
+                        RecieverUserName = dataSnapshot.child(RecieverUserId).child("name").getValue().toString();
+                        nameContact.setText(RecieverUserName);
+                        Picasso.get().load(R.drawable.profile_image).into(profileImage);
+
+                    }
 
                 }
 
@@ -183,6 +198,7 @@ public class CallingActivity extends AppCompatActivity {
                     mediaPlayer.stop();
                     Intent intent  = new Intent(CallingActivity.this,VideoChatActivity.class);
                     startActivity(intent);
+                    finish();
 
                 }
 
@@ -227,9 +243,9 @@ public class CallingActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task)
                                             {
-                                                Intent intent = new Intent(CallingActivity.this,HomeActivity.class);
-
-                                                startActivity(intent);
+                                                //Chat to home
+                                                Intent intent1 = new Intent(CallingActivity.this,HomeActivity.class);
+                                                startActivity(intent1);
                                                 finish();
 
 
@@ -242,9 +258,10 @@ public class CallingActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            Intent intent = new Intent(CallingActivity.this,HomeActivity.class);
+                            //chat to home
+                            Intent intent2 = new Intent(CallingActivity.this,HomeActivity.class);
 
-                            startActivity(intent);
+                            startActivity(intent2);
                             finish();
 
                         }
@@ -281,6 +298,7 @@ public class CallingActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task)
                                             {
+                                                //chat to home
                                                 Intent intent = new Intent(CallingActivity.this,HomeActivity.class);
 
                                                 startActivity(intent);
@@ -296,9 +314,11 @@ public class CallingActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            Intent intent = new Intent(CallingActivity.this,HomeActivity.class);
+                            //chat to home
 
-                            startActivity(intent);
+                            Intent intent3 = new Intent(CallingActivity.this,HomeActivity.class);
+
+                            startActivity(intent3);
                             finish();
 
                         }

@@ -20,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +31,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -41,7 +45,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatActivity extends AppCompatActivity {
 
     private  String messagerecieverId,messagerecieverName,messageRecieverImage,messagSenderId;
-    private DatabaseReference RootRef;
+    private DatabaseReference RootRef,UserRef;
     private TextView userName,UserLastSeen;
     private CircleImageView UserImage;
     private Toolbar chatToolbar;
@@ -55,6 +59,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    private InterstitialAd mInterstitialAd;
+
     private ImageView videoCall;
 
     @Override
@@ -64,6 +70,7 @@ public class ChatActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         messagSenderId = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
+        UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         messagerecieverId = getIntent().getExtras().get("visit_user_id").toString();
         messagerecieverName = getIntent().getExtras().get("visit_user_name").toString();
@@ -73,6 +80,7 @@ public class ChatActivity extends AppCompatActivity {
 
         userName.setText(messagerecieverName);
         Picasso.get().load(messageRecieverImage).placeholder(R.drawable.profile_image).into(UserImage);
+
 
         sendMesssageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,11 +98,13 @@ public class ChatActivity extends AppCompatActivity {
             {
                 Intent videoIntent = new Intent(ChatActivity.this,CallingActivity.class);
                 videoIntent.putExtra("visit_user_id",messagerecieverId);
-                videoIntent.putExtra("visit_user_name",messagerecieverName);
                 startActivity(videoIntent);
+                finish();
 
             }
         });
+
+        prepareAd();
 
     }
 
@@ -116,8 +126,7 @@ public class ChatActivity extends AppCompatActivity {
         actionBar.setCustomView(actionBarView);
 
         userName = (TextView)findViewById(R.id.custom_profile_name);
-        UserLastSeen = (TextView)findViewById(R.id.custom_user_last_seen);
-        UserImage= (CircleImageView)findViewById(R.id.custom_profile_image);
+        UserImage= (CircleImageView) findViewById(R.id.custom_profile_image);
         sendMesssageButton = (ImageButton)findViewById(R.id.send_message_personal_btn);
         messageInputText = (EditText)findViewById(R.id.input_message);
         messagesAdapter = new MessagesAdapter(messagesList);
@@ -221,6 +230,35 @@ public class ChatActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public void prepareAd()
+    {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if(mInterstitialAd.isLoaded())
+        {
+            mInterstitialAd.show();
+
+            mInterstitialAd.setAdListener(new AdListener(){
+
+                @Override
+                public void onAdClosed() {
+                    super.onAdClosed();
+                    finish();
+                }
+            });
+        }
+        else
+        {
+            super.onBackPressed();
+        }
     }
 
 

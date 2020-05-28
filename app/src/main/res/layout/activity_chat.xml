@@ -19,7 +19,8 @@
         android:layout_below="@+id/chat_toolbar"
         android:layout_above="@id/chat_linear_layout"
         android:layout_marginBottom="6dp"
-        android:background="#CCEEF4"/>
+
+        android:background="#575B5C"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +28,7 @@
         android:id="@+id/chat_linear_layout"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:background="#E6F3F1"
+        android:background="#B4B8B8"
         android:orientation="horizontal">
 
         <EditText
@@ -43,6 +44,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/send_message_personal_btn"
             android:src="@drawable/send_message"
+            android:layout_marginRight="5dp"
+            android:paddingRight="15dp"
             />
 
 

@@ -1,5 +1,8 @@
 package com.example.namastey;
-
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.AdRequest;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Button Update_acc_setting;
     private EditText user_name,user_status;
+    private AdView mAdView;
 
 
     private String CurrentUserID;
@@ -47,6 +51,8 @@ public class SettingsActivity extends AppCompatActivity {
     private CircleImageView Profile_image;
     private static final int GalleryPick = 1;
     private StorageReference UserProfileImagesReference;
+    private InterstitialAd mInterstitialAd;
+
 
 
     private ProgressDialog Loadingbar;
@@ -61,6 +67,14 @@ public class SettingsActivity extends AppCompatActivity {
         CurrentUserID = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
         UserProfileImagesReference = FirebaseStorage.getInstance().getReference().child("Profile Images");
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        prepareAd();
+
+
 
 
 
@@ -256,6 +270,36 @@ public class SettingsActivity extends AppCompatActivity {
         MainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(MainIntent);
         finish();
+    }
+
+
+    public void prepareAd()
+    {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if(mInterstitialAd.isLoaded())
+        {
+            mInterstitialAd.show();
+
+            mInterstitialAd.setAdListener(new AdListener(){
+
+                @Override
+                public void onAdClosed() {
+                    super.onAdClosed();
+                    finish();
+                }
+            });
+        }
+        else
+        {
+            super.onBackPressed();
+        }
     }
 
 

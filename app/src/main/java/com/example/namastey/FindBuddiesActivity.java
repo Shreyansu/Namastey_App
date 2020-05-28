@@ -15,6 +15,10 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -23,9 +27,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FindBuddiesActivity extends AppCompatActivity {
 
+
     private Toolbar mToolbar;
     private RecyclerView FindBuddiesRecyclerList;
     private DatabaseReference UserRef;
+    private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
 
 
     @Override
@@ -45,6 +52,12 @@ public class FindBuddiesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Find Buddies");
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        prepareAd();
 
 
     }
@@ -111,5 +124,32 @@ public class FindBuddiesActivity extends AppCompatActivity {
         }
     }
 
+    public void prepareAd()
+    {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+    }
 
+    @Override
+    public void onBackPressed()
+    {
+        if(mInterstitialAd.isLoaded())
+        {
+           mInterstitialAd.show();
+
+           mInterstitialAd.setAdListener(new AdListener(){
+
+               @Override
+               public void onAdClosed() {
+                   super.onAdClosed();
+                   finish();
+               }
+           });
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+    }
 }

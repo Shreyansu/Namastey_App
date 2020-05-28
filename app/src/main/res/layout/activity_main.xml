@@ -10,10 +10,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is Splash Screen"
+        android:text="Namastey"
+        android:textStyle="bold"
+
+        android:textAllCaps="false"
+        android:textColor="#0E0E0E"
         android:textSize="24sp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
+
+
+
 
 
 

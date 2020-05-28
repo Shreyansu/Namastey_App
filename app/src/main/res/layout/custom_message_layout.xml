@@ -21,7 +21,7 @@
         android:layout_marginLeft="3dp"
         android:layout_toEndOf="@+id/message_profile_image"
         android:background="@drawable/reciever_messages_layout"
-        android:text="reciever_messages_here"
+        android:text="reciever Message"
         android:padding="10dp"
         android:textSize="14sp"
         android:textStyle="bold"
