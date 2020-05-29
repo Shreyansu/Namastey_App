@@ -36,6 +36,7 @@
         android:layout_alignParentRight="@+id/reciever_message_text"
         android:background="@drawable/sender_messages_layout"
         android:text="sender_messages"
+        android:layout_marginRight="5dp"
         android:textSize="14sp"
         android:padding="10dp"
         android:textStyle="bold"

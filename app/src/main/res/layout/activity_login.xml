@@ -8,12 +8,40 @@
 
 
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/topView"
+        android:background="@color/colorPrimary"/>
+
+
+        <TextView
+            android:layout_width="238dp"
+            android:layout_height="wrap_content"
+            android:text="Welcome !"
+            android:layout_marginTop="29dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="#FAF4F4"
+            android:textSize="40dp"
+            android:textStyle="bold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/topView"
+        android:id="@+id/topView2"
+        android:background="@drawable/ic_wave1"/>
+
+
+
+
         <Spinner
             android:id="@+id/spinnerCountries"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:layout_below="@id/topView2"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="120dp"/>
+            android:layout_marginTop="80dp"/>
 
 
 
@@ -65,7 +93,7 @@
         android:layout_marginStart="17dp"
         android:padding="5dp"
         android:background="@drawable/button"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="#070707"
         android:textAlignment="center"
         android:textStyle="bold"/>
 

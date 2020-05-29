@@ -51,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
     private CircleImageView Profile_image;
     private static final int GalleryPick = 1;
     private StorageReference UserProfileImagesReference;
-    private InterstitialAd mInterstitialAd;
+
 
 
 
@@ -72,7 +72,7 @@ public class SettingsActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        prepareAd();
+
 
 
 
@@ -273,34 +273,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    public void prepareAd()
-    {
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-    }
 
-    @Override
-    public void onBackPressed()
-    {
-        if(mInterstitialAd.isLoaded())
-        {
-            mInterstitialAd.show();
-
-            mInterstitialAd.setAdListener(new AdListener(){
-
-                @Override
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    finish();
-                }
-            });
-        }
-        else
-        {
-            super.onBackPressed();
-        }
-    }
 
 
 

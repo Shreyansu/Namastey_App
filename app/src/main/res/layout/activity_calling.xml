@@ -19,7 +19,7 @@
         android:id="@+id/user_name_calling"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textColor="@color/colorPrimary"
+    android:textColor="#080909"
     android:textSize="40dp"
     android:textStyle="bold"
     android:text="UserName"
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:textColor="#0C0C0C"
         android:textSize="20dp"
-        android:textStyle="bold"
+
         android:text="Calling....."
         android:gravity="center"
         android:layout_above="@+id/linear_layout1"></TextView>

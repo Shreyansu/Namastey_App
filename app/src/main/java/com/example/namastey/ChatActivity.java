@@ -62,7 +62,6 @@ public class ChatActivity extends AppCompatActivity {
     private InterstitialAd mInterstitialAd;
 
     private ImageView videoCall;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +78,28 @@ public class ChatActivity extends AppCompatActivity {
         intializeControllers();
 
         userName.setText(messagerecieverName);
-        Picasso.get().load(messageRecieverImage).placeholder(R.drawable.profile_image).into(UserImage);
+        //Picasso.get().load(messageRecieverImage).placeholder(R.drawable.profile_image).into(UserImage);
+
+        UserRef.child(messagerecieverId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                if(dataSnapshot.exists())
+                {
+                    if(dataSnapshot.hasChild("image"))
+                    {
+                        final String retriveUserImage = dataSnapshot.child("image").getValue().toString();
+                        Picasso.get().load(retriveUserImage).placeholder(R.drawable.profile_image).into(UserImage);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         sendMesssageButton.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +125,6 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         prepareAd();
-
     }
 
 

@@ -100,9 +100,8 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="#BFC3C3"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="1dp"
         android:layout_below="@+id/linear"
         />
 
